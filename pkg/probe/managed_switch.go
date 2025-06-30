@@ -39,10 +39,19 @@ func (f *FlexibleFloat64) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
+	// Handle special string values
+	switch str {
+	case "auto", "":
+		*f = FlexibleFloat64(0)
+		return nil
+	}
+
 	// Convert string to float64
 	val, err := strconv.ParseFloat(str, 64)
 	if err != nil {
-		return err
+		// If parsing fails, default to 0 instead of returning an error
+		*f = FlexibleFloat64(0)
+		return nil
 	}
 
 	*f = FlexibleFloat64(val)
