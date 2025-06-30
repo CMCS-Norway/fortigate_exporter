@@ -281,6 +281,36 @@ func TestProbeManagedSwitch(t *testing.T) {
 		fortigate_managed_switch_port_power_watt{port="port7",switch_name="FOO-SW-01",vdom="root"} 0
 		fortigate_managed_switch_port_power_watt{port="port8",switch_name="FOO-SW-01",vdom="root"} 0
 		fortigate_managed_switch_port_power_watt{port="port9",switch_name="FOO-SW-01",vdom="root"} 0
+		# HELP fortigate_managed_switch_port_speed_mbps Port speed in Mbps
+		# TYPE fortigate_managed_switch_port_speed_mbps gauge
+		fortigate_managed_switch_port_speed_mbps{port="port1",switch_name="FOO-SW-01",vdom="root"} 1000
+		fortigate_managed_switch_port_speed_mbps{port="port10",switch_name="FOO-SW-01",vdom="root"} 0
+		fortigate_managed_switch_port_speed_mbps{port="port11",switch_name="FOO-SW-01",vdom="root"} 0
+		fortigate_managed_switch_port_speed_mbps{port="port12",switch_name="FOO-SW-01",vdom="root"} 0
+		fortigate_managed_switch_port_speed_mbps{port="port13",switch_name="FOO-SW-01",vdom="root"} 0
+		fortigate_managed_switch_port_speed_mbps{port="port14",switch_name="FOO-SW-01",vdom="root"} 0
+		fortigate_managed_switch_port_speed_mbps{port="port15",switch_name="FOO-SW-01",vdom="root"} 0
+		fortigate_managed_switch_port_speed_mbps{port="port16",switch_name="FOO-SW-01",vdom="root"} 0
+		fortigate_managed_switch_port_speed_mbps{port="port17",switch_name="FOO-SW-01",vdom="root"} 0
+		fortigate_managed_switch_port_speed_mbps{port="port18",switch_name="FOO-SW-01",vdom="root"} 0
+		fortigate_managed_switch_port_speed_mbps{port="port19",switch_name="FOO-SW-01",vdom="root"} 0
+		fortigate_managed_switch_port_speed_mbps{port="port2",switch_name="FOO-SW-01",vdom="root"} 1000
+		fortigate_managed_switch_port_speed_mbps{port="port20",switch_name="FOO-SW-01",vdom="root"} 0
+		fortigate_managed_switch_port_speed_mbps{port="port21",switch_name="FOO-SW-01",vdom="root"} 0
+		fortigate_managed_switch_port_speed_mbps{port="port22",switch_name="FOO-SW-01",vdom="root"} 0
+		fortigate_managed_switch_port_speed_mbps{port="port23",switch_name="FOO-SW-01",vdom="root"} 0
+		fortigate_managed_switch_port_speed_mbps{port="port24",switch_name="FOO-SW-01",vdom="root"} 1000
+		fortigate_managed_switch_port_speed_mbps{port="port25",switch_name="FOO-SW-01",vdom="root"} 0
+		fortigate_managed_switch_port_speed_mbps{port="port26",switch_name="FOO-SW-01",vdom="root"} 0
+		fortigate_managed_switch_port_speed_mbps{port="port27",switch_name="FOO-SW-01",vdom="root"} 0
+		fortigate_managed_switch_port_speed_mbps{port="port28",switch_name="FOO-SW-01",vdom="root"} 0
+		fortigate_managed_switch_port_speed_mbps{port="port3",switch_name="FOO-SW-01",vdom="root"} 0
+		fortigate_managed_switch_port_speed_mbps{port="port4",switch_name="FOO-SW-01",vdom="root"} 0
+		fortigate_managed_switch_port_speed_mbps{port="port5",switch_name="FOO-SW-01",vdom="root"} 0
+		fortigate_managed_switch_port_speed_mbps{port="port6",switch_name="FOO-SW-01",vdom="root"} 0
+		fortigate_managed_switch_port_speed_mbps{port="port7",switch_name="FOO-SW-01",vdom="root"} 0
+		fortigate_managed_switch_port_speed_mbps{port="port8",switch_name="FOO-SW-01",vdom="root"} 0
+		fortigate_managed_switch_port_speed_mbps{port="port9",switch_name="FOO-SW-01",vdom="root"} 0
 		# HELP fortigate_managed_switch_port_status Port status up=1 down=0
 		# TYPE fortigate_managed_switch_port_status gauge
 		fortigate_managed_switch_port_status{port="port1",switch_name="FOO-SW-01",vdom="root"} 1

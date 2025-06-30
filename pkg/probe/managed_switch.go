@@ -14,12 +14,45 @@
 package probe
 
 import (
+	"encoding/json"
 	"log"
 	"strconv"
 
 	"github.com/prometheus-community/fortigate_exporter/pkg/http"
 	"github.com/prometheus/client_golang/prometheus"
 )
+
+// FlexibleFloat64 can unmarshal both string and numeric values
+type FlexibleFloat64 float64
+
+func (f *FlexibleFloat64) UnmarshalJSON(data []byte) error {
+	// Try to unmarshal as float64 first
+	var val float64
+	if err := json.Unmarshal(data, &val); err == nil {
+		*f = FlexibleFloat64(val)
+		return nil
+	}
+
+	// If that fails, try as string
+	var str string
+	if err := json.Unmarshal(data, &str); err != nil {
+		return err
+	}
+
+	// Convert string to float64
+	val, err := strconv.ParseFloat(str, 64)
+	if err != nil {
+		return err
+	}
+
+	*f = FlexibleFloat64(val)
+	return nil
+}
+
+// Float64 returns the float64 value
+func (f FlexibleFloat64) Float64() float64 {
+	return float64(f)
+}
 
 func probeManagedSwitch(c http.FortiHTTP, meta *TargetMetadata) ([]prometheus.Metric, bool) {
 	var (
@@ -52,6 +85,11 @@ func probeManagedSwitch(c http.FortiHTTP, meta *TargetMetadata) ([]prometheus.Me
 		portPowerStatus = prometheus.NewDesc(
 			"fortigate_managed_switch_port_power_status",
 			"Port power status",
+			[]string{"vdom", "switch_name", "port"}, nil,
+		)
+		portSpeed = prometheus.NewDesc(
+			"fortigate_managed_switch_port_speed_mbps",
+			"Port speed in Mbps",
 			[]string{"vdom", "switch_name", "port"}, nil,
 		)
 
@@ -179,15 +217,15 @@ func probeManagedSwitch(c http.FortiHTTP, meta *TargetMetadata) ([]prometheus.Me
 	)
 
 	type Port struct {
-		Interface   string  `json:"interface"`
-		Status      string  `json:"status"`
-		Duplex      string  `json:"duplex"`
-		Speed       float64 `json:"speed"`
-		PortPower   float64 `json:"port_power"`
-		PowerStatus float64 `json:"power_status"`
-		Vlan        string  `json:"vlan"`
-		PoeCapable  bool    `json:"poe_capable"`
-		PoeStatus   string  `json:"poe_status"`
+		Interface   string          `json:"interface"`
+		Status      string          `json:"status"`
+		Duplex      string          `json:"duplex"`
+		Speed       FlexibleFloat64 `json:"speed"`
+		PortPower   float64         `json:"port_power"`
+		PowerStatus float64         `json:"power_status"`
+		Vlan        string          `json:"vlan"`
+		PoeCapable  bool            `json:"poe_capable"`
+		PoeStatus   string          `json:"poe_status"`
 	}
 	type PortStat struct {
 		BytesRx       float64 `json:"rx-bytes"`
@@ -253,6 +291,7 @@ func probeManagedSwitch(c http.FortiHTTP, meta *TargetMetadata) ([]prometheus.Me
 				m = append(m, prometheus.MustNewConstMetric(portInfo, prometheus.GaugeValue, 1, result.VDOM, result.Name, port.Interface, port.Vlan, port.Duplex, port.Status, port.PoeStatus, strconv.FormatBool(port.PoeCapable)))
 				m = append(m, prometheus.MustNewConstMetric(portPower, prometheus.GaugeValue, port.PortPower, result.VDOM, result.Name, port.Interface))
 				m = append(m, prometheus.MustNewConstMetric(portPowerStatus, prometheus.GaugeValue, port.PowerStatus, result.VDOM, result.Name, port.Interface))
+				m = append(m, prometheus.MustNewConstMetric(portSpeed, prometheus.GaugeValue, port.Speed.Float64(), result.VDOM, result.Name, port.Interface))
 
 			}
 			for portName, port := range result.PortStats {
