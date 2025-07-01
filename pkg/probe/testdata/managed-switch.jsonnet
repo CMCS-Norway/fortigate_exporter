@@ -16,7 +16,7 @@
     "http_method":"GET",
     "results":[
       {
-        "name":"FOO-SW-01",
+        "switch-id":"FOO-SW-01",
         "serial":"S124EF5920010260",
         "fgt_peer_intf_name":"fortilink",
         "state":"Authorized",
